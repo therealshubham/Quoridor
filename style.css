@@ -1,0 +1,266 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+  color: #764ba2;
+  margin-bottom: 20px;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.player-info {
+  background: #f0f0f0;
+  padding: 15px;
+  border-radius: 15px;
+  border: 3px solid #333;
+  min-width: 150px;
+}
+
+.player-info.active {
+  background: #ffe066;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.player-label {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.walls-left {
+  font-size: 1em;
+  color: #555;
+}
+
+.turn-indicator {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #764ba2;
+  text-align: center;
+  padding: 10px 20px;
+  background: #ffe066;
+  border-radius: 15px;
+  border: 3px solid #333;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(17, 30px);
+  grid-template-rows: repeat(17, 30px);
+  gap: 0;
+  margin: 0 auto;
+  width: fit-content;
+  background: #f5deb3;
+  padding: 10px;
+  border-radius: 15px;
+  border: 5px solid #8b4513;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  background: #faebd7;
+  border: 2px solid #daa520;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cell:hover {
+  background: #ffe4b5;
+  transform: scale(1.1);
+}
+
+.cell.pawn0 {
+  background: #4dabf7;
+  border-color: #1971c2;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.pawn1 {
+  background: #ff6b6b;
+  border-color: #c92a2a;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.path-highlight {
+  background: #ffd43b;
+  animation: pathPulse 0.5s;
+}
+
+@keyframes pathPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.wall-slot {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.wall-slot:hover {
+  background: rgba(139, 69, 19, 0.3);
+}
+
+.wall-slot.preview {
+  background: #d2a679;
+  cursor: pointer;
+}
+
+.wall-slot.wall {
+  background: #8b4513;
+  cursor: default;
+  position: relative;
+}
+
+.wall-slot.wall.h::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: #8b4513;
+}
+
+.wall-slot.wall.v::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #8b4513;
+}
+
+.wall-slot.wall.h {
+  border-radius: 5px 0 0 5px;
+}
+
+.wall-slot.wall.v {
+  border-radius: 5px 5px 0 0;
+}
+
+.wall-slot.wall-end.h {
+  border-radius: 0 5px 5px 0;
+}
+
+.wall-slot.wall-end.v {
+  border-radius: 0 0 5px 5px;
+}
+
+.intersection {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+button {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1em;
+  padding: 12px 24px;
+  border: 3px solid #333;
+  border-radius: 15px;
+  background: #4dabf7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: #1971c2;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button.active {
+  background: #ff6b6b;
+}
+
+#error-message {
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: white;
+  background: #ff6b6b;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 3px solid #c92a2a;
+  display: none;
+  animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#winner-message {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: #764ba2;
+  margin-top: 20px;
+  animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
