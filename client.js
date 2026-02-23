@@ -223,7 +223,7 @@ document.getElementById('orientation-btn').onclick = () => {
 
 function showWallPreview(x, y, orientation) {
   clearWallPreview();
-  const slots = document.querySelectorAll('.wall-slot');
+  const slots = document.querySelectorAll('.wall-slot, .intersection');
   
   slots.forEach(slot => {
     const rect = slot.getBoundingClientRect();
@@ -241,10 +241,18 @@ function showWallPreview(x, y, orientation) {
       if ((slotX === x && slotY === y) || (slotX === x && slotY === y + 1)) {
         slot.classList.add('preview');
       }
+    } else if (row % 2 === 1 && col % 2 === 1) {
+      const intX = Math.ceil(col / 2), intY = Math.ceil(row / 2);
+      if (orientation === 'h' && intX === x + 1 && intY === y) {
+        slot.classList.add('preview-connector');
+      } else if (orientation === 'v' && intX === x && intY === y + 1) {
+        slot.classList.add('preview-connector');
+      }
     }
   });
 }
 
 function clearWallPreview() {
   document.querySelectorAll('.preview').forEach(slot => slot.classList.remove('preview'));
+  document.querySelectorAll('.preview-connector').forEach(slot => slot.classList.remove('preview-connector'));
 }

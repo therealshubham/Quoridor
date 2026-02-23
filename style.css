@@ -203,6 +203,10 @@ h1 {
   background: #8b4513;
 }
 
+.intersection.preview-connector {
+  background: #d2a679;
+}
+
 .controls {
   display: flex;
   justify-content: center;
