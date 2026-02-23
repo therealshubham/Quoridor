@@ -191,6 +191,15 @@ function renderBoard() {
       } else {
         const intersection = document.createElement('div');
         intersection.className = 'intersection';
+        
+        const intX = Math.ceil(col / 2), intY = Math.ceil(row / 2);
+        const hasHWall = gameState.board.walls.some(w => w.orientation === 'h' && w.x === intX - 1 && w.y === intY);
+        const hasVWall = gameState.board.walls.some(w => w.orientation === 'v' && w.x === intX && w.y === intY - 1);
+        
+        if (hasHWall || hasVWall) {
+          intersection.classList.add('wall-connector');
+        }
+        
         board.appendChild(intersection);
       }
     }
